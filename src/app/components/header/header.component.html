@@ -1,0 +1,39 @@
+<div class="container">
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" [routerLink] = "'/'">MyStickerList</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" 
+              [routerLink] = "'/'"
+              [routerLinkActive] = "'active'"
+              [routerLinkActiveOptions] = "{exact:true}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" 
+              [routerLink] = "'/stickers'"
+              [routerLinkActive] = "'active'"
+              [routerLinkActiveOptions] = "{exact:true}">My list</a>
+            </li>
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Control panels
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" 
+                      [routerLink] = "'/stickers/control-panels/stickers'"
+                      [routerLinkActive] = "'active'"
+                      [routerLinkActiveOptions] = "{exact:true}">Sticker</a></li>
+                    <li><a class="dropdown-item" 
+                      [routerLink] = "'/stickers/control-panels/types'"
+                      [routerLinkActive] = "'active'"
+                      [routerLinkActiveOptions] = "{exact:true}">Type</a></li>
+                  </ul>
+            </li>
+          </ul>
+        </div>
+      </nav>
+</div>

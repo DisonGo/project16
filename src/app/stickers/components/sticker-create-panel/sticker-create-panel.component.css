@@ -1,0 +1,10 @@
+.stickCreatePanel {
+  transition: 0.2s;
+}
+
+.addBut {
+  width: 6em;
+  height: 3em;
+  border-radius: 1.5em;
+  align-self: end;
+}

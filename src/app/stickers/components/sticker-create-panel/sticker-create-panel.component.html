@@ -1,0 +1,19 @@
+<div class="stickCreatePanel sticker">
+    <form [formGroup] = "stickerForm" class="container-my" style="flex-direction: column; height: 100%;gap: 0;">
+      <textarea type="text" id="title" class="title" placeholder="Введите заголовок" formControlName ="title" 
+      [ngClass] = "{
+        'hasError': stickerForm.get('title')?.invalid && stickerForm.get('title')?.touched}"></textarea>
+      <textarea type="text" id="text" class="textarea" style="max-width: 100%;" placeholder="Введите текст"  formControlName ="text"
+      [ngClass] = "{hasError:stickerForm.get('text')?.invalid && stickerForm.get('text')?.touched}"></textarea>
+      <div class="container-my" style="flex-wrap: nowrap;">
+        <div class="container-my" style="gap: 0;flex-direction: column;">
+          <label for="type">Тип заметки</label>
+          <select name="type" id="type" style="flex-grow: 1;" formControlName="type" >
+            <option [value] = "type.id" *ngFor="let type of stickerTypes">{{type.name}} </option>
+          </select>
+        </div>
+        <button type="submit" class="addBut" #addBut (click)="addNote()" [disabled] = "stickerForm.invalid">Добавить</button> 
+      </div>
+    </form>    
+</div>
+

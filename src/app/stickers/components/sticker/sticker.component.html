@@ -1,0 +1,30 @@
+<form [formGroup] ="stickerForm" class="container-my" style="flex-direction: column; height: 100%;gap: 0;"
+  [ngStyle]="{'display': editing? 'flex': 'none'}">
+  <textarea type="text"  class="title" placeholder="Введите заголовок" formControlName="title"
+    [ngClass]="{hasError:stickerForm.get('title')?.invalid && stickerForm.get('title')?.touched}"></textarea>
+  <textarea type="text"  class="textarea" style="width: 100%;flex-grow: 1;" placeholder="Введите текст"
+    formControlName="text"
+    [ngClass]="{hasError:stickerForm.get('text')?.invalid && stickerForm.get('text')?.touched}"></textarea>
+  <div class="container-my" style="gap: 0;flex-direction: column;">
+    <label for="type">Тип заметки</label>
+    <select name="type" style="width: 50%;" formControlName="type">
+      <option [value]="type.id" *ngFor="let type of stickerTypes">{{type.name}} </option>
+    </select>
+  </div>
+  <button type="submit" [disabled]="stickerForm.invalid" class="confirmBut UIButs" (click)="turnOffEditing(true)">Yes
+  </button>
+  <button class="declineBut UIButs" (click)="turnOffEditing(false)">No
+  </button>
+</form>
+<div [ngStyle]="{'display': !editing? 'block': 'none'}">
+  <h2 style="text-decoration: underline;" >{{data.title}}</h2>
+  <p style="cursor: pointer;" >{{data.text}}</p>
+  <div class="dateText">
+    <div>Создано: <span class="dateColor">{{data.date|date:'d.MM.yy HH:mm'}}</span></div>
+    <div>Отредактировано: <span class="dateColor">{{data.lastEdited|date:'d.MM.yy HH:mm'}}</span></div>
+  </div>
+  <div class="id">{{data.id}}
+    <span style="color: blue;" [ngStyle]="{display:displayType?'none':'inline'}">{{data.type.name}}</span>
+  </div>
+</div>
+<button class="deleteBut UIButs" (click)="deleteSticker()">X</button>

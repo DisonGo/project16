@@ -1,0 +1,27 @@
+<div class="container" style="background-color: rgb(255, 232, 21)0;">
+  <div id="typeControlPanel" class="container" [@openClose]="isOpen ? 'open' : 'closed'">
+    <div id="closeBut" (click)="switchShow()">Панель типов заметок <div class="downSymCont"><span
+          [innerHtml]="arrowSym"></span></div>
+    </div>
+    <form class="container" style="width: 100%;flex-grow: 1;" [formGroup]="stickerTypeForm">
+      <div class="container" style="gap: 0;flex-direction: column;width: 100%;">
+        <label for="type">Тип заметки</label>
+        <select name="type" style="flex-grow: 1;" formControlName="type" (change)="typeChanged()"
+          [ngClass]="{'hasError':stickerTypeForm.get('type')?.invalid && stickerTypeForm.get('type')?.touched}">
+          <option [value]="type.id" *ngFor="let type of stickerTypes">{{type.name}} </option>
+        </select>
+      </div>
+      <textarea name="name" class="textarea"
+        style="max-width: 100%;border: 1px solid black;font-size: 1.2em;height: auto; max-width: calc(100% - 7px);" placeholder="Имя типа"
+        formControlName="name"
+        [ngClass]="{'hasError':stickerTypeForm.get('name')?.invalid && stickerTypeForm.get('name')?.touched}"></textarea>
+        <div class="container" style="flex-direction: row;gap: 0;">
+          <button type="submit" class="editSubmitBut" [disabled] = "stickerTypeForm.invalid" style="border-top-left-radius:15px" (click)="editType()">Изменить текущий</button>
+          <button type="submit" class="editSubmitBut" [disabled] = "stickerTypeForm.invalid" style="border-top-right-radius:15px" (click)="createType()">Сохранить как новый</button>
+          <button type="submit" class="editSubmitBut" style="border-bottom-right-radius:15px ;
+          border-bottom-left-radius:15px; width: 100%;
+          color: red;" (click)="deleteType()">Удалить</button>
+        </div>
+    </form>
+  </div>
+</div>

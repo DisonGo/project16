@@ -1,0 +1,46 @@
+.UIButs{
+    width: 30px;
+    height: 30px;
+    bottom: 5px;
+    position: absolute;
+    border-radius: 15px;
+    text-align: center;
+    background-size: contain;
+    cursor: pointer;
+    outline: none;
+    border: none;
+}
+h2{
+    cursor: pointer;
+    width: 100%;
+    min-height: 1em;
+}
+.confirmBut{
+    right: 75px;
+    background-color: springgreen;
+}
+.declineBut{
+    right: 40px;
+    background-color:tomato;
+}
+.deleteBut{
+    bottom: 5px;
+    right: 5px;
+    background-color: white;
+}
+.id{
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 1.2em;
+    color: rgb(180, 0, 0);
+}
+.dateText{
+    position: absolute;
+    left: 5px;
+    bottom: 5px;
+    font-size: 0.9em;
+}
+.dateColor{
+    color: seagreen;
+}

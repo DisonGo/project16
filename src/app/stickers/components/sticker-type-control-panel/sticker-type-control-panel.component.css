@@ -1,0 +1,23 @@
+#typeControlPanel{
+    width: 200px;
+    padding: 10px;
+    background-color: rgb(255, 232, 21);
+    transition: .2s;
+    overflow: hidden;
+    align-content: flex-start;
+    gap: 5px;
+}
+.editSubmitBut{
+    width: 50%;
+}
+#closeBut{
+    cursor: pointer;
+    position: relative;
+    width: 100%;
+}
+.downSymCont{
+    position: absolute;
+    right: 0;
+    top: -3px;
+    font-size: 1.3em;
+}
