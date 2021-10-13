@@ -14,7 +14,9 @@ export class HttpStickerService {
   getStickers(): Promise<Sticker[]>{
     return this.http.get<Sticker[]>(this.stickerRoute+"?_expand=type").toPromise()
   }
-
+  getSticker(id:number): Promise<Sticker>{
+    return this.http.get<Sticker>(this.stickerRoute+id+"/?_expand=type").toPromise()
+  }
   postSticker(data:Sticker): Promise<Sticker>{
     return this.http.post<Sticker>(this.stickerRoute,data).toPromise()
   }
@@ -42,7 +44,7 @@ export class HttpStickerService {
   deleteStickerType(id:number): Promise<StickerType>{
     return this.http.delete<StickerType>(this.typeRoute+id).toPromise()
   }
-  
+
   editStickerType(data:StickerType): Promise<StickerType>{
     return this.http.patch<StickerType>(this.typeRoute+data.id,data).toPromise()
   }

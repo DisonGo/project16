@@ -1,1 +1,10 @@
-<p>item</p>
+
+
+<p *ngIf="!editing; else elseBlock">item</p>
+<ng-template #elseBlock>
+    <div class="container-my">
+        <app-sticker
+    [data] = sticker [editing]=editing class="sticker"></app-sticker>
+    </div>
+</ng-template>
+

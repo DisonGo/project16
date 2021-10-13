@@ -6,6 +6,8 @@ import {
   Output
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { HttpStickerService } from 'src/app/shared/services/http-sticker.service';
 import { Sticker } from '../../../shared/interface/sticker.interface';
 import { StickerType } from '../../../shared/interface/type.interface';
 
@@ -16,21 +18,20 @@ import { StickerType } from '../../../shared/interface/type.interface';
 })
 export class StickerComponent implements OnInit {
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder ,private httpServ: HttpStickerService,private router:Router) {}
   stickerForm!:FormGroup
   oldTitle!: string;
   oldText!: string;
   oldDate!: any;
   initId!:any
-  editing = false
+  // editing = false
   displayType = false
   @Input() data!:Sticker;
-  @Input() stickerTypes!:StickerType[];
-  // @Output() stickerEdited = new EventEmitter <Sticker>();
+  @Input() editing!:boolean;
+  stickerTypes!:StickerType[];
+  @Output() stickerStartEdit = new EventEmitter ();
   @Output() stickerDelete = new EventEmitter <number>();
   turnOnEditing(){
-    // this.initId = this.getTypeId(this.initId)
-    this.editing = true
     this.stickerForm.get('title')?.setValue(this.data.title)
     this.stickerForm.get('text')?.setValue(this.data.text)
     this.stickerForm.get('type')?.setValue(this.initId)
@@ -38,22 +39,43 @@ export class StickerComponent implements OnInit {
     this.oldText = this.data.text 
     this.oldDate = this.data.date 
   }
-  turnOffEditing(ending:boolean){
+  async turnOffEditing(ending:boolean){
     if(ending){
       let values = this.stickerForm.value
       this.data.title = values.title
       this.data.text = values.text
       this.data.typeId = parseInt(values.type)
       this.data.lastEdited = Date.now()
-      // this.stickerEdited.emit(this.data)
+      await this.editSticker(this.data)
+      this.router.navigate(['stickers'])
     }else{
-
+      this.turnOnEditing()
     }
-    this.editing = false
   }
-  
-  deleteSticker() {
+  deleteSticker(){
     this.stickerDelete.emit(this.data.id)
+  }
+  async editSticker(sticker:Sticker){
+    try{
+      await this.httpServ.editSticker(sticker)    
+    }catch(err){
+      console.log(err);
+    }finally{
+      this.router.navigate(['stickers'])
+    }
+  }
+  async getTypes(){
+    try{
+      this.stickerTypes = await this.httpServ.getStickerTypes()
+      console.log(this.stickerTypes);
+      
+    }catch(err){
+      console.log(err);
+    }
+    
+  }
+  startEdit(){
+    this.stickerStartEdit.emit()
   }
   ngOnInit(): void {
     const controls = {
@@ -62,9 +84,11 @@ export class StickerComponent implements OnInit {
       type: [0,[Validators.maxLength(15)]]
     }
     this.stickerForm = this.fb.group(controls)
-    let buf = Object.assign({}, this.data)
-    this.initId = this.data.type
-    
+    this.getTypes()
+    this.initId = this.data.type.id
+    if(this.editing){
+      this.turnOnEditing()
+    }
   }
 
 }

@@ -10,6 +10,7 @@ import {
 import { StickerType } from '../../../shared/interface/type.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpStickerService } from '../../../shared/services/http-sticker.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sticker-type-control-panel',
@@ -37,11 +38,11 @@ export class StickerTypeControlPanelComponent implements OnInit {
   stickerTypeForm!: FormGroup
   arrowSym = '&#8659;'
   closedHeight = '2em'
-  @Input() stickerTypes!:StickerType[]
+  stickerTypes!:StickerType[]
   @Output() stickerTypeEdited = new EventEmitter ()
   @Output() stickerTypePosted = new EventEmitter ()
   @Output() stickerTypeDeleted = new EventEmitter ()
-  constructor(private fb: FormBuilder,private stickerServ:HttpStickerService) { }
+  constructor(private fb: FormBuilder,private httpServ: HttpStickerService,private router:Router) { }
   switchShow(){
     if(this.isOpen){
       this.isOpen = false
@@ -58,7 +59,7 @@ export class StickerTypeControlPanelComponent implements OnInit {
     })?.name
   }
   setInputValue(id:number){ 
-    this.stickerServ.getStickerType(id).then(res=>{
+    this.httpServ.getStickerType(id).then(res=>{
       this.stickerTypeForm.get('name')?.setValue(res.name)
     })
   }
@@ -75,9 +76,10 @@ export class StickerTypeControlPanelComponent implements OnInit {
       id: this.stickerTypes[this.stickerTypes.length-1].id + 1,
       name: values.name
     }
-    await this.stickerServ.postStickerType(newType)
-    this.stickerTypePosted.emit()
+    await this.httpServ.postStickerType(newType)
+    // this.stickerTypePosted.emit()
     this.stickerTypeForm.get('name')?.setValue('None')
+    this.getTypes()
   }
   async editType(){
     let values = this.stickerTypeForm.value
@@ -85,20 +87,32 @@ export class StickerTypeControlPanelComponent implements OnInit {
       id: parseInt(values.type),
       name: values.name
     }
-    await this.stickerServ.editStickerType(newType)
-    this.stickerTypeEdited.emit()
+    await this.httpServ.editStickerType(newType)
+    // this.stickerTypeEdited.emit()
     this.stickerTypeForm.get('name')?.setValue('None')
+    this.getTypes()
   }
   async deleteType(){
     let values = this.stickerTypeForm.value
     let id = parseInt(values.type)
-    await this.stickerServ.deleteStickerType(id)
-    this.stickerTypeDeleted.emit()
+    await this.httpServ.deleteStickerType(id)
+    // this.stickerTypeDeleted.emit()
     this.stickerTypeForm.get('name')?.setValue('None')
+    this.getTypes()
+  }
+  async getTypes(){
+    try{
+      this.stickerTypes = await this.httpServ.getStickerTypes()
+      console.log(this.stickerTypes);
+      
+    }catch(err){
+      console.log(err);
+    }
+    
   }
   ngOnInit(): void {
-    console.log(this.stickerTypes);
-    
+
+    this.getTypes()
     const controls = {
       type: [0,[Validators.required]],
       name: [null,[Validators.required,Validators.maxLength(8)]]

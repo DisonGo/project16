@@ -13,12 +13,12 @@
   </div>
   <button type="submit" [disabled]="stickerForm.invalid" class="confirmBut UIButs" (click)="turnOffEditing(true)">Yes
   </button>
-  <button class="declineBut UIButs" (click)="turnOffEditing(false)">No
+  <button class="declineBut UIButs" (click)="turnOffEditing(false)">No  
   </button>
 </form>
 <div [ngStyle]="{'display': !editing? 'block': 'none'}">
-  <h2 style="text-decoration: underline;" >{{data.title}}</h2>
-  <p style="cursor: pointer;" >{{data.text}}</p>
+  <h2 style="text-decoration: underline;" (click)='startEdit()' >{{data.title}}</h2>
+  <p style="cursor: pointer;" (click)='startEdit()' >{{data.text}}</p>
   <div class="dateText">
     <div>Создано: <span class="dateColor">{{data.date|date:'d.MM.yy HH:mm'}}</span></div>
     <div>Отредактировано: <span class="dateColor">{{data.lastEdited|date:'d.MM.yy HH:mm'}}</span></div>
@@ -27,4 +27,6 @@
     <span style="color: blue;" [ngStyle]="{display:displayType?'none':'inline'}">{{data.type.name}}</span>
   </div>
 </div>
-<button class="deleteBut UIButs" (click)="deleteSticker()">X</button>
+<div *ngIf="!editing">
+  <button class="deleteBut UIButs" (click)="deleteSticker()">X</button>
+</div>

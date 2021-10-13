@@ -34,16 +34,6 @@ export class StickerListComponent implements OnInit {
       this.getStickers()
     }
   }
-  async getTypes(){
-    try{
-      this.stickerTypes = await this.httpServ.getStickerTypes()
-      console.log(this.stickerTypes);
-      
-    }catch(err){
-      console.log(err);
-    }
-    
-  }
   loadItem(id?:number){
     if(id){
       this.router.navigate([this.router.url,'item',id])
@@ -53,7 +43,6 @@ export class StickerListComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getStickers()
-    this.getTypes()
   }
 
 }
